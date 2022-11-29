@@ -20,7 +20,7 @@ public class Account {
     }
 
     public enum Role {
-        USER, ADMIN
+        USER, ADMIN, MANAGER
     }
     public enum Departament {
         LAWYER, SOFTWARE_ENGINEER

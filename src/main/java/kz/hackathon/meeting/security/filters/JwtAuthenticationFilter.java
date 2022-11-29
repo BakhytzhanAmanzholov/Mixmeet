@@ -5,6 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kz.hackathon.meeting.dto.mappers.AccountMapper;
+import kz.hackathon.meeting.dto.response.AccountDto;
 import kz.hackathon.meeting.security.authentication.RefreshTokenAuthentication;
 import kz.hackathon.meeting.security.config.JwtSecurityConfig;
 import kz.hackathon.meeting.security.details.UserDetailsImpl;
@@ -77,6 +79,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         TokenWithRoleName r = new TokenWithRoleName();
 
+        r.setAccount(AccountMapper.toResponseDto(userDetails.getUser()));
         Map<String, String> tokenJson = jwtUtil.generateTokens(
                 userDetails.getUsername(),
                 userDetails.getAuthorities().iterator().next().getAuthority(),
@@ -95,4 +98,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 @Data
 class TokenWithRoleName{
     private Map<String, String> token;
+    private AccountDto account;
 }
