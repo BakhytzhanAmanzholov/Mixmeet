@@ -27,6 +27,7 @@ public class AccountMapper {
                 .email(account.getEmail())
                 .username(account.getUsername())
                 .role(account.getRole().name())
+                .department(account.getDepartament().name())
                 .build();
     }
     public static ProfileDto toResponseDtoProfile(Account account){
@@ -36,6 +37,7 @@ public class AccountMapper {
                 .username(account.getUsername())
                 .role(account.getRole().name())
                 .schedule(new ArrayList<>())
+                .department(account.getDepartament().name())
                 .build();
         for (ScheduleWorkspace scheduleWorkspace: account.getScheduleWorkspaces()){
             dto.getSchedule().add(

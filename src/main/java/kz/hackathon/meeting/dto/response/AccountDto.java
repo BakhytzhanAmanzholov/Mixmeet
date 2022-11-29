@@ -10,4 +10,5 @@ public class AccountDto {
     private String email;
     private String username;
     private String role;
+    private String department;
 }

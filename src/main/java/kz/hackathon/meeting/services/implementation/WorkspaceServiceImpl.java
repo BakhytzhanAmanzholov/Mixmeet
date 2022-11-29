@@ -85,6 +85,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
                 return scheduleWorkspace;
             }
         }
+        if(workspace.getAccount()!=null){
+            return workspace;
+        }
 
         workspace.setAccount(account);
         workspace = scheduleWorkspaceService.findById(workspaceID);
