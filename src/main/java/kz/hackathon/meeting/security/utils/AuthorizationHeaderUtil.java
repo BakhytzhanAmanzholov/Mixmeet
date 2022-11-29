@@ -1,6 +1,6 @@
 package kz.hackathon.meeting.security.utils;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 
 public interface AuthorizationHeaderUtil {

@@ -1,6 +1,6 @@
 package kz.hackathon.meeting.models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,9 +14,9 @@ import java.util.List;
 @ToString
 @Builder
 public class ScheduleRoom {
-//    public enum Weekday {
-//        Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
-//    }
+    public enum Weekday {
+        Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,9 +25,9 @@ public class ScheduleRoom {
     @ManyToOne
     private Account owner;
     @OneToMany
+    @ToString.Exclude
     private List<Account> participants;
-    @Enumerated(value = EnumType.STRING)
-//    private Weekday weekday;
+    private Weekday weekday;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     @ManyToOne

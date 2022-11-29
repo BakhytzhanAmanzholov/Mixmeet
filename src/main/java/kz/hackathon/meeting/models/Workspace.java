@@ -1,6 +1,6 @@
 package kz.hackathon.meeting.models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -19,6 +19,7 @@ public class Workspace {
     @ManyToOne
     private Room room;
     @OneToMany
+    @ToString.Exclude
     private List<ScheduleWorkspace> schedule;
 
 }

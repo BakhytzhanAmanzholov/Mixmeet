@@ -1,10 +1,10 @@
 package kz.hackathon.meeting.security.filters;
 
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import kz.hackathon.meeting.security.config.JwtSecurityConfig;
 import kz.hackathon.meeting.security.repository.BlackListRepository;
 import kz.hackathon.meeting.security.utils.AuthorizationHeaderUtil;

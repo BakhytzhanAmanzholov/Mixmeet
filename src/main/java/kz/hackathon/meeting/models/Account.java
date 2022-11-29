@@ -1,8 +1,8 @@
 package kz.hackathon.meeting.models;
 
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.List;
 
 
@@ -47,5 +47,6 @@ public class Account {
     private Departament departament;
 
     @ManyToMany
+    @ToString.Exclude
     private List<ScheduleRoom> scheduleRooms;
 }

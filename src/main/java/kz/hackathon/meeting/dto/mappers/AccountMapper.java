@@ -21,6 +21,7 @@ public class AccountMapper {
                 .id(account.getId())
                 .email(account.getEmail())
                 .username(account.getUsername())
+                .role(account.getRole().name())
                 .build();
     }
 }

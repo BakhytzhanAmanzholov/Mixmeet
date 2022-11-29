@@ -22,7 +22,7 @@ public class HomeController {
         Account account = AccountMapper.fromRequestDto(dto);
         accountService.calcDep(account, dto.getDepartment());
         account = accountService.save(account);
-        accountService.addAccountToWorkspace(account.getId(), dto.getOfficeID());
+        accountService.addOfficeToAccount(account.getId(), dto.getOfficeID());
 
         return ResponseEntity.ok(AccountMapper.toResponseDto(account));
     }

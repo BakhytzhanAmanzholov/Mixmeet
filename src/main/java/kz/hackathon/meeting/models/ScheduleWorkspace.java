@@ -1,6 +1,6 @@
 package kz.hackathon.meeting.models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -13,6 +13,9 @@ import java.time.LocalDate;
 @ToString
 @Builder
 public class ScheduleWorkspace {
+    public enum Weekday {
+                Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,4 +24,6 @@ public class ScheduleWorkspace {
     private Workspace workspace;
     @ManyToOne
     private Account account;
+    private Weekday weekday;
+
 }

@@ -1,6 +1,6 @@
 package kz.hackathon.meeting.models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -27,6 +27,7 @@ public class Room {
     @ManyToOne
     private Office office;
     @OneToMany
+    @ToString.Exclude
     private List<Workspace> workspaces;
     @Enumerated(value = EnumType.STRING)
     private Type type;

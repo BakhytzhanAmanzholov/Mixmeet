@@ -1,6 +1,6 @@
 package kz.hackathon.meeting.security.utils.implementation;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import kz.hackathon.meeting.security.config.JwtSecurityConfig;
 import kz.hackathon.meeting.security.utils.AuthorizationHeaderUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
