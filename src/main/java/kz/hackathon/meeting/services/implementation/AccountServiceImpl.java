@@ -69,6 +69,9 @@ public class AccountServiceImpl implements AccountService {
         ScheduleWorkspace workspace = scheduleWorkspaceService.findById(workspaceId);
 
         workspace.setAccount(account);
+        account = findById(accountId);
+        workspace = scheduleWorkspaceService.findById(workspaceId);
+        account.getScheduleWorkspaces().add(workspace);
     }
 
     @Override
@@ -121,5 +124,10 @@ public class AccountServiceImpl implements AccountService {
         } else if (department == 1) {
             account.setDepartament(Account.Departament.SOFTWARE_ENGINEER);
         }
+    }
+
+    @Override
+    public List<Account> findAll() {
+        return repository.findAll();
     }
 }

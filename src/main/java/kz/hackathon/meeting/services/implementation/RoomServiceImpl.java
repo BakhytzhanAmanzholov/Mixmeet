@@ -6,10 +6,7 @@ import kz.hackathon.meeting.models.Office;
 import kz.hackathon.meeting.models.Room;
 import kz.hackathon.meeting.models.ScheduleRoom;
 import kz.hackathon.meeting.repositories.RoomRepository;
-import kz.hackathon.meeting.services.AccountService;
-import kz.hackathon.meeting.services.OfficeService;
-import kz.hackathon.meeting.services.RoomService;
-import kz.hackathon.meeting.services.ScheduleRoomService;
+import kz.hackathon.meeting.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +28,7 @@ public class RoomServiceImpl implements RoomService {
     private final AccountService accountService;
 
     private final OfficeService officeService;
+
 
     @Override
     public Room save(Room entity) {
@@ -93,22 +92,24 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public ScheduleRoom createEvent(EventDto dto) {
         ScheduleRoom start = scheduleRoomService.findById(dto.getStartId());
-        ScheduleRoom end = scheduleRoomService.findById(dto.getStartId());
+        ScheduleRoom end = scheduleRoomService.findById(dto.getEndId());
         for (Long i = start.getId() + 1; i <= end.getId(); i++) {
+            log.info(String.valueOf(i));
             scheduleRoomService.delete(i);
         }
         if (!dto.getWithout()) {
             start.setOwner(accountService.findByEmail(accountService.isLogged()));
         }
         for (Long id : dto.getGuestIds()) {
-            start = scheduleRoomService.findById(dto.getStartId());
-            start.getParticipants().add(accountService.findById(id));
+            if (start.getRoom().getCapacity() > start.getParticipants().size()) {
+                start = scheduleRoomService.findById(dto.getStartId());
+                start.getParticipants().add(accountService.findById(id));
+            }
         }
         start = scheduleRoomService.findById(dto.getStartId());
         start.setTitle(dto.getTitle());
         start = scheduleRoomService.findById(dto.getStartId());
         start.setEndDateTime(end.getEndDateTime());
-        log.info(String.valueOf(start.getEndDateTime()));
         return start;
     }
 
@@ -121,4 +122,11 @@ public class RoomServiceImpl implements RoomService {
         office = officeService.findById(officeID);
         office.getRooms().add(room);
     }
+
+    @Override
+    public List<Room> findAll() {
+        return repository.findAll();
+    }
+
+
 }

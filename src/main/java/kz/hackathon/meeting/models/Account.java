@@ -46,6 +46,9 @@ public class Account {
     @Enumerated(value = EnumType.STRING)
     private Departament departament;
 
+    @OneToMany
+    private List<ScheduleWorkspace> scheduleWorkspaces;
+
     @ManyToMany
     @ToString.Exclude
     private List<ScheduleRoom> scheduleRooms;

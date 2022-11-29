@@ -31,6 +31,7 @@ public class ScheduleRoomServiceImpl implements ScheduleRoomService {
         Room room = scheduleRoom.getRoom();
         room.getSchedule().remove(scheduleRoom);
         repository.deleteById(aLong);
+
     }
 
     @Override

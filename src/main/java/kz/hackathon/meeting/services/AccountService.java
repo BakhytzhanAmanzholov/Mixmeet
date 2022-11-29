@@ -20,4 +20,6 @@ public interface AccountService extends CrudService<Account, Long> {
     void addOfficeToAccount(Long accountID, Long officeID);
 
     void calcDep(Account account, Long department);
+
+    List<Account> findAll();
 }

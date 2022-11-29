@@ -1,10 +1,8 @@
 package kz.hackathon.meeting.controllers;
 
-import kz.hackathon.meeting.dto.mappers.EventMapper;
 import kz.hackathon.meeting.dto.mappers.RoomMapper;
-import kz.hackathon.meeting.dto.response.EventResponseDto;
+import kz.hackathon.meeting.dto.response.RoomDto;
 import kz.hackathon.meeting.models.Room;
-import kz.hackathon.meeting.models.ScheduleRoom;
 import kz.hackathon.meeting.services.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +25,21 @@ public class RoomController {
     @GetMapping("/{id}")
     public ResponseEntity<?> room(@PathVariable("id") Long id) {
         Room room = roomService.findById(id);
-        return ResponseEntity.ok(RoomMapper.toResponseDto(room));
+        return ResponseEntity.ok(RoomMapper.toResponseDtoWithEvents(room));
+    }
+
+    @GetMapping("/{id}/workspace")
+    public ResponseEntity<?> roomWithWorkspace(@PathVariable("id") Long id) {
+        Room room = roomService.findById(id);
+        return ResponseEntity.ok(RoomMapper.toResponseDtoWithWorkspaces(room));
+    }
+    @GetMapping()
+    public ResponseEntity<?> rooms() {
+        List<Room> rooms = roomService.findAll();
+        List<RoomDto> dto = new ArrayList<>();
+        for (Room room: rooms){
+            dto.add(RoomMapper.toResponseDto(room));
+        }
+        return ResponseEntity.ok(dto);
     }
 }

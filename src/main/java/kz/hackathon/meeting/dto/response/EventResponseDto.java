@@ -14,5 +14,5 @@ public class EventResponseDto {
     private List<AccountDto> participants;
     private String startDateTime;
     private String endDateTime;
-    private RoomWithoutEventDto room;
+    private RoomDto room;
 }

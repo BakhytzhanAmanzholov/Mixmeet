@@ -1,12 +1,9 @@
 package kz.hackathon.meeting.dto.mappers;
 
 
-import kz.hackathon.meeting.dto.request.EventDto;
 import kz.hackathon.meeting.dto.response.EventResponseDto;
 import kz.hackathon.meeting.models.Account;
 import kz.hackathon.meeting.models.ScheduleRoom;
-
-import java.util.ArrayList;
 
 public class EventMapper {
 
@@ -24,7 +21,7 @@ public class EventMapper {
         for (Account account : scheduleRoom.getParticipants()) {
             event.getParticipants().add(AccountMapper.toResponseDto(account));
         }
-        event.setRoom(RoomMapper.toResponseDtoWith(scheduleRoom.getRoom()));
+        event.setRoom(RoomMapper.toResponseDto(scheduleRoom.getRoom()));
         return event;
     }
 
