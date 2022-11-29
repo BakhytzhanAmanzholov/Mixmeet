@@ -1,6 +1,7 @@
 package kz.hackathon.meeting;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,4 +24,10 @@ public class MeetingApplication {
         SpringApplication.run(MeetingApplication.class, args);
     }
 
+    @Bean
+    public CommandLineRunner commandLineRunner() {
+        return args -> {
+
+        };
+    }
 }

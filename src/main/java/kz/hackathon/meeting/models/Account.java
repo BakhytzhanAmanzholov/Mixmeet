@@ -3,6 +3,8 @@ package kz.hackathon.meeting.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 
 @Entity
 @NoArgsConstructor
@@ -20,6 +22,9 @@ public class Account {
     public enum Role {
         USER, ADMIN
     }
+    public enum Departament {
+        LAWYER, SOFTWARE_ENGINEER
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,6 +33,8 @@ public class Account {
     private String password;
     private String email;
     private Integer priority;
+    @ManyToOne
+    private Office office;
 
     private Boolean confirmed = false;
     private Boolean banned = false;
@@ -36,4 +43,9 @@ public class Account {
     private Role role;
     @Enumerated(value = EnumType.STRING)
     private State state;
+    @Enumerated(value = EnumType.STRING)
+    private Departament departament;
+
+    @ManyToMany
+    private List<ScheduleRoom> scheduleRooms;
 }

@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -19,7 +21,6 @@ public class ScheduleRoomServiceImpl implements ScheduleRoomService {
 
     @Override
     public ScheduleRoom save(ScheduleRoom entity) {
-
         return repository.save(entity);
     }
 
@@ -37,5 +38,10 @@ public class ScheduleRoomServiceImpl implements ScheduleRoomService {
     public ScheduleRoom findById(Long aLong) {
         return repository.findById(aLong).orElseThrow(
                 () -> new NotFoundException("Schedule for room <" + aLong + "> not found"));
+    }
+
+    @Override
+    public List<ScheduleRoom> findAll() {
+        return repository.findAll();
     }
 }

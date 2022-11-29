@@ -28,7 +28,8 @@ public class ScheduleRoom {
     private List<Account> participants;
     @Enumerated(value = EnumType.STRING)
 //    private Weekday weekday;
-    private LocalDateTime date;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
     @ManyToOne
     private Room room;
 

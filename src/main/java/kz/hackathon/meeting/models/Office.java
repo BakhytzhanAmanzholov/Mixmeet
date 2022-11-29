@@ -21,5 +21,8 @@ public class Office {
     private String address;
     @OneToMany
     @ToString.Exclude
+    private List<Account> accounts;
+    @OneToMany
+    @ToString.Exclude
     private List<Room> rooms;
 }

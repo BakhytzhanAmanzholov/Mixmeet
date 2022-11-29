@@ -19,8 +19,6 @@ public class ScheduleWorkspaceImpl implements ScheduleWorkspaceService {
 
     @Override
     public ScheduleWorkspace save(ScheduleWorkspace entity) {
-        
-
         return repository.save(entity);
     }
 

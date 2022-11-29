@@ -12,6 +12,7 @@ public class AccountMapper {
                 .password(dto.getPassword())
                 .username(dto.getUsername())
                 .role(Account.Role.USER)
+                .priority(3)
                 .build();
     }
 
