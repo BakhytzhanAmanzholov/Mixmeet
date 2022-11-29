@@ -2,6 +2,7 @@ package kz.hackathon.meeting.controllers;
 
 import kz.hackathon.meeting.dto.mappers.RoomMapper;
 import kz.hackathon.meeting.dto.response.RoomDto;
+import kz.hackathon.meeting.dto.response.RoomWithWorkspaceDto;
 import kz.hackathon.meeting.models.Room;
 import kz.hackathon.meeting.services.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,17 @@ public class RoomController {
         List<RoomDto> dto = new ArrayList<>();
         for (Room room: rooms){
             dto.add(RoomMapper.toResponseDto(room));
+        }
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/workspace")
+    public ResponseEntity<?> roomsWithWorkspace() {
+        List<Room> rooms = roomService.findAll();
+        List<RoomWithWorkspaceDto> dto = new ArrayList<>();
+        for (Room room: rooms){
+            if(room.getType().name().equals(Room.Type.OPEN_SPACE.name())){
+                dto.add(RoomMapper.toResponseDtoWithWorkspaces(room));
+            }
         }
         return ResponseEntity.ok(dto);
     }

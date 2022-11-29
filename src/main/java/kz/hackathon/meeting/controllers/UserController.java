@@ -33,4 +33,9 @@ public class UserController {
 
         return ResponseEntity.ok(dtoList);
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> profile() {
+        return ResponseEntity.ok(AccountMapper.toResponseDtoProfile(accountService.findByEmail(accountService.isLogged())));
+    }
 }
