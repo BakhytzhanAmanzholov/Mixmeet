@@ -5,6 +5,8 @@ import kz.hackathon.meeting.dto.response.EventResponseDto;
 import kz.hackathon.meeting.models.Account;
 import kz.hackathon.meeting.models.ScheduleRoom;
 
+import java.util.ArrayList;
+
 public class EventMapper {
 
     public static EventResponseDto toRequestDto(ScheduleRoom scheduleRoom) {
@@ -14,6 +16,7 @@ public class EventMapper {
                 .title(scheduleRoom.getTitle())
                 .startDateTime(String.valueOf(scheduleRoom.getStartDateTime()))
                 .endDateTime(String.valueOf(scheduleRoom.getEndDateTime()))
+                .participants(new ArrayList<>())
                 .build();
         if(scheduleRoom.getOwner()!=null){
             event.setOwner(AccountMapper.toResponseDto(scheduleRoom.getOwner()));
