@@ -31,4 +31,7 @@ public class Room {
     private List<Workspace> workspaces;
     @Enumerated(value = EnumType.STRING)
     private Type type;
+    @OneToMany
+    @ToString.Exclude
+    private List<ScheduleRoom> schedule;
 }

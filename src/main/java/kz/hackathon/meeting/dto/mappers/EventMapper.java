@@ -13,15 +13,18 @@ public class EventMapper {
     public static EventResponseDto toRequestDto(ScheduleRoom scheduleRoom) {
         EventResponseDto event = EventResponseDto.builder()
                 .id(scheduleRoom.getId())
-                .owner(AccountMapper.toResponseDto(scheduleRoom.getOwner()))
+//                .owner(AccountMapper.toResponseDto(scheduleRoom.getOwner()))
                 .title(scheduleRoom.getTitle())
                 .startDateTime(String.valueOf(scheduleRoom.getStartDateTime()))
                 .endDateTime(String.valueOf(scheduleRoom.getEndDateTime()))
                 .build();
+        if(scheduleRoom.getOwner()!=null){
+            event.setOwner(AccountMapper.toResponseDto(scheduleRoom.getOwner()));
+        }
         for (Account account : scheduleRoom.getParticipants()) {
             event.getParticipants().add(AccountMapper.toResponseDto(account));
         }
-        event.setRoom(RoomMapper.toResponseDto(scheduleRoom.getRoom()));
+        event.setRoom(RoomMapper.toResponseDtoWith(scheduleRoom.getRoom()));
         return event;
     }
 

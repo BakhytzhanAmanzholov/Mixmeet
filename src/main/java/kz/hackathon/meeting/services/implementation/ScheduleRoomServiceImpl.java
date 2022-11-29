@@ -44,4 +44,7 @@ public class ScheduleRoomServiceImpl implements ScheduleRoomService {
     public List<ScheduleRoom> findAll() {
         return repository.findAll();
     }
+
+
+
 }
