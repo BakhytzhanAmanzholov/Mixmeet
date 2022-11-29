@@ -1,6 +1,7 @@
 package kz.hackathon.meeting.services.implementation;
 
 import kz.hackathon.meeting.exceptions.NotFoundException;
+import kz.hackathon.meeting.models.Room;
 import kz.hackathon.meeting.models.ScheduleRoom;
 import kz.hackathon.meeting.repositories.ScheduleRoomRepository;
 import kz.hackathon.meeting.services.ScheduleRoomService;
@@ -26,6 +27,9 @@ public class ScheduleRoomServiceImpl implements ScheduleRoomService {
 
     @Override
     public void delete(Long aLong) {
+        ScheduleRoom scheduleRoom = findById(aLong);
+        Room room = scheduleRoom.getRoom();
+        room.getSchedule().remove(scheduleRoom);
         repository.deleteById(aLong);
     }
 

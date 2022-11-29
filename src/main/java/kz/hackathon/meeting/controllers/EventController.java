@@ -30,18 +30,8 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<?> createEvent(@RequestBody EventDto dto) {
-        ScheduleRoom scheduleRoom = EventMapper.fromRequestDto(dto);
-        if (!dto.getWithout()) {
-            scheduleRoom.setOwner(accountService.findByEmail(accountService.isLogged()));
-        }
-        for (Long id : dto.getGuestIds()) {
-            scheduleRoom.getParticipants().add(accountService.findById(id));
-        }
-        scheduleRoom.setRoom(roomService.findById(dto.getRoomID()));
 
-        scheduleRoom = scheduleRoomService.save(scheduleRoom);
-
-        return ResponseEntity.ok(EventMapper.toRequestDto(scheduleRoom));
+        return ResponseEntity.ok(EventMapper.toRequestDto(roomService.createEvent(dto)));
     }
 
     @GetMapping

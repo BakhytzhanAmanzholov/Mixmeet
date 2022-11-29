@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 public class OfficeServiceImpl implements OfficeService {
     private final OfficeRepository repository;
 
-    private final RoomService roomService;
 
     @Override
     public Office save(Office entity) {
@@ -45,12 +45,7 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public void addRoomToOffice(Long officeID, Long roomID) {
-        Room room = roomService.findById(roomID);
-        Office office = findById(officeID);
-        room.setOffice(office);
-        room = roomService.findById(roomID);
-        office = findById(officeID);
-        office.getRooms().add(room);
+    public List<Office> findAll() {
+        return repository.findAll();
     }
 }

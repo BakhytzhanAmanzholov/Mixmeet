@@ -28,12 +28,4 @@ public class EventMapper {
         return event;
     }
 
-    public static ScheduleRoom fromRequestDto(EventDto dto) {
-        return ScheduleRoom.builder()
-                .title(dto.getTitle())
-                .startDateTime(dto.getStartDateTime())
-                .endDateTime(dto.getEndDateTime())
-                .participants(new ArrayList<>())
-                .build();
-    }
 }

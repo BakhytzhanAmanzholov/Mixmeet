@@ -27,10 +27,6 @@ public class AccountServiceImpl implements AccountService {
 
     private final ScheduleWorkspaceService scheduleWorkspaceService;
 
-    private final RoomService roomService;
-
-    private final WorkspaceService workspaceService;
-
     private final OfficeService officeService;
 
     @Override

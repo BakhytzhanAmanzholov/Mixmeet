@@ -36,28 +36,28 @@ public class MeetingApplication {
     public CommandLineRunner commandLineRunner(OfficeService officeService, RoomService roomService,
                                                ScheduleRoomService scheduleRoomService) {
         return args -> {
-            Office office = officeService.save(
-                    Office.builder()
-                            .accounts(new ArrayList<>())
-                            .city("Astana")
-                            .address("Dostyk 15")
-                            .rooms(new ArrayList<>())
-                            .title("Main office")
-                            .build()
-            );
-            Room room1 = roomService.save(
-              Room.builder()
-                      .room("321")
-                      .capacity(14)
-                      .workspaces(new ArrayList<>())
-                      .type(Room.Type.MEETING)
-                      .office(office)
-                      .schedule(new ArrayList<>())
-                      .title("Main Meeting room")
-                      .build()
-            );
-
-            officeService.addRoomToOffice(office.getId(), room1.getId());
+//            Office office = officeService.save(
+//                    Office.builder()
+//                            .accounts(new ArrayList<>())
+//                            .city("Astana")
+//                            .address("Dostyk 15")
+//                            .rooms(new ArrayList<>())
+//                            .title("Main office")
+//                            .build()
+//            );
+//            Room room1 = roomService.save(
+//              Room.builder()
+//                      .room("321")
+//                      .capacity(14)
+//                      .workspaces(new ArrayList<>())
+//                      .type(Room.Type.MEETING)
+//                      .office(office)
+//                      .schedule(new ArrayList<>())
+//                      .title("Main Meeting room")
+//                      .build()
+//            );
+//
+//            roomService.addRoomToOffice(office.getId(), room1.getId());
 
         };
     }

@@ -1,9 +1,13 @@
 package kz.hackathon.meeting.services.implementation;
 
+import kz.hackathon.meeting.dto.request.EventDto;
 import kz.hackathon.meeting.exceptions.NotFoundException;
+import kz.hackathon.meeting.models.Office;
 import kz.hackathon.meeting.models.Room;
 import kz.hackathon.meeting.models.ScheduleRoom;
 import kz.hackathon.meeting.repositories.RoomRepository;
+import kz.hackathon.meeting.services.AccountService;
+import kz.hackathon.meeting.services.OfficeService;
 import kz.hackathon.meeting.services.RoomService;
 import kz.hackathon.meeting.services.ScheduleRoomService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,10 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository repository;
 
     private final ScheduleRoomService scheduleRoomService;
+
+    private final AccountService accountService;
+
+    private final OfficeService officeService;
 
     @Override
     public Room save(Room entity) {
@@ -59,27 +67,58 @@ public class RoomServiceImpl implements RoomService {
         int endM = 30;
         for (int i = 0; i < 30; i++) {
             ScheduleRoom scheduleRoom = scheduleRoomService.save(
-              ScheduleRoom.builder()
-                      .startDateTime(LocalDateTime.of(2022, 11, 30, startH , startM, 0))
-                      .endDateTime(LocalDateTime.of(2022, 11, 30, endH , endM, 0))
-                      .participants(new ArrayList<>())
-                      .title("")
-                      .owner(null)
-                      .room(room)
-                      .build()
+                    ScheduleRoom.builder()
+                            .startDateTime(LocalDateTime.of(2022, 11, 30, startH, startM, 0))
+                            .endDateTime(LocalDateTime.of(2022, 11, 30, endH, endM, 0))
+                            .participants(new ArrayList<>())
+                            .title("")
+                            .owner(null)
+                            .room(room)
+                            .build()
             );
-            if(i%2==0){
+            if (i % 2 == 0) {
                 endH++;
-                startM=30;
-                endM=0;
-            }
-            else {
+                startM = 30;
+                endM = 0;
+            } else {
                 startH++;
-                startM=0;
-                endM=30;
+                startM = 0;
+                endM = 30;
             }
             room.getSchedule().add(scheduleRoom);
             room = findById(roomId);
         }
+    }
+
+    @Override
+    public ScheduleRoom createEvent(EventDto dto) {
+        ScheduleRoom start = scheduleRoomService.findById(dto.getStartId());
+        ScheduleRoom end = scheduleRoomService.findById(dto.getStartId());
+        for (Long i = start.getId() + 1; i <= end.getId(); i++) {
+            scheduleRoomService.delete(i);
+        }
+        if (!dto.getWithout()) {
+            start.setOwner(accountService.findByEmail(accountService.isLogged()));
+        }
+        for (Long id : dto.getGuestIds()) {
+            start = scheduleRoomService.findById(dto.getStartId());
+            start.getParticipants().add(accountService.findById(id));
+        }
+        start = scheduleRoomService.findById(dto.getStartId());
+        start.setTitle(dto.getTitle());
+        start = scheduleRoomService.findById(dto.getStartId());
+        start.setEndDateTime(end.getEndDateTime());
+        log.info(String.valueOf(start.getEndDateTime()));
+        return start;
+    }
+
+    @Override
+    public void addRoomToOffice(Long officeID, Long roomID) {
+        Room room = findById(roomID);
+        Office office = officeService.findById(officeID);
+        room.setOffice(office);
+        room = findById(roomID);
+        office = officeService.findById(officeID);
+        office.getRooms().add(room);
     }
 }
