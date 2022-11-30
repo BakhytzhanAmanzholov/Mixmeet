@@ -1,10 +1,7 @@
 package kz.hackathon.meeting.services.implementation;
 
 import kz.hackathon.meeting.exceptions.NotFoundException;
-import kz.hackathon.meeting.models.Account;
-import kz.hackathon.meeting.models.Room;
-import kz.hackathon.meeting.models.ScheduleWorkspace;
-import kz.hackathon.meeting.models.Workspace;
+import kz.hackathon.meeting.models.*;
 import kz.hackathon.meeting.repositories.WorkspaceRepository;
 import kz.hackathon.meeting.services.AccountService;
 import kz.hackathon.meeting.services.RoomService;
@@ -79,6 +76,20 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     public ScheduleWorkspace addAccountToWorkspace(Long workspaceID) {
         ScheduleWorkspace workspace = scheduleWorkspaceService.findById(workspaceID);
         Account account = accountService.findByEmail(accountService.isLogged());
+
+        Office office = workspace.getWorkspace().getRoom().getOffice();
+        int capacityWorkspace = 0;
+        int cAccounts = office.getAccounts().size();
+
+        for(Room room: office.getRooms()){
+            capacityWorkspace += room.getCapacity();
+        }
+        capacityWorkspace*=5;
+
+//        if(account.getScheduleWorkspaces().size() >= 3){
+//            if(cAccounts*3 )
+//        }
+
 
         for(ScheduleWorkspace scheduleWorkspace:account.getScheduleWorkspaces()){
             if(scheduleWorkspace.getDate().equals(workspace.getDate())){

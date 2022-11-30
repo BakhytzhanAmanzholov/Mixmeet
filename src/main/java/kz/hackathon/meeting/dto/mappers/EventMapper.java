@@ -17,6 +17,7 @@ public class EventMapper {
                 .id(event.getId())
                 .title(event.getTitle())
                 .participants(new ArrayList<>())
+                .schedule(new ArrayList<>())
                 .build();
         if(event.getOwner()!=null){
             eventDto.setOwner(AccountMapper.toResponseDto(event.getOwner()));
