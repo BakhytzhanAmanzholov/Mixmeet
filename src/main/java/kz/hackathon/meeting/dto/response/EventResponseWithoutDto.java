@@ -7,10 +7,9 @@ import java.util.List;
 
 @Data
 @Builder
-public class EventResponseDto {
+public class EventResponseWithoutDto {
     private Long id;
     private String title;
     private AccountDto owner;
     private List<AccountDto> participants;
-    private List<ScheduleRoomDto> schedule;
 }

@@ -7,6 +7,9 @@ import kz.hackathon.meeting.models.ScheduleWorkspace;
 import kz.hackathon.meeting.models.Workspace;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class RoomMapper {
     public static RoomWithEventDto toResponseDtoWithEvents(Room room){
@@ -18,9 +21,13 @@ public class RoomMapper {
                 .type(room.getType().name())
                 .events(new ArrayList<>())
                 .build();
+        List<ScheduleRoomWithEventDto> list = new ArrayList<>();
         for (ScheduleRoom scheduleRoom: room.getSchedule()){
-            dto.getEvents().add(EventMapper.toRequestDto(scheduleRoom));
+            list.add(ScheduleEventMapper.toResponseDto(scheduleRoom));
+//            dto.getEvents().add(ScheduleEventMapper.toResponseDto(scheduleRoom));
         }
+        list.sort((o1, o2) -> (int) (o1.getId() - o2.getId()));
+        dto.setEvents(list);
         return dto;
     }
     public static RoomDto toResponseDto(Room room){

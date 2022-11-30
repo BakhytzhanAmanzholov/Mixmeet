@@ -2,6 +2,7 @@ package kz.hackathon.meeting.services.implementation;
 
 import kz.hackathon.meeting.dto.request.EventDto;
 import kz.hackathon.meeting.exceptions.NotFoundException;
+import kz.hackathon.meeting.models.Event;
 import kz.hackathon.meeting.models.Office;
 import kz.hackathon.meeting.models.Room;
 import kz.hackathon.meeting.models.ScheduleRoom;
@@ -28,6 +29,8 @@ public class RoomServiceImpl implements RoomService {
     private final AccountService accountService;
 
     private final OfficeService officeService;
+
+    private final EventService eventService;
 
 
     @Override
@@ -69,9 +72,6 @@ public class RoomServiceImpl implements RoomService {
                     ScheduleRoom.builder()
                             .startDateTime(LocalDateTime.of(2022, 11, 30, startH, startM, 0))
                             .endDateTime(LocalDateTime.of(2022, 11, 30, endH, endM, 0))
-                            .participants(new ArrayList<>())
-                            .title("")
-                            .owner(null)
                             .room(room)
                             .build()
             );
@@ -90,27 +90,35 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public ScheduleRoom createEvent(EventDto dto) {
-        ScheduleRoom start = scheduleRoomService.findById(dto.getStartId());
-        ScheduleRoom end = scheduleRoomService.findById(dto.getEndId());
-        for (Long i = start.getId() + 1; i <= end.getId(); i++) {
-            log.info(String.valueOf(i));
-            scheduleRoomService.delete(i);
-        }
-        if (!dto.getWithout()) {
-            start.setOwner(accountService.findByEmail(accountService.isLogged()));
-        }
+    public Event createEvent(EventDto dto) {
+        Event event = eventService.save(Event.builder()
+                .participants(new ArrayList<>())
+                .title(dto.getTitle())
+                .schedule(new ArrayList<>())
+                .build());
+
         for (Long id : dto.getGuestIds()) {
-            if (start.getRoom().getCapacity() > start.getParticipants().size()) {
-                start = scheduleRoomService.findById(dto.getStartId());
-                start.getParticipants().add(accountService.findById(id));
+            if (event.getSchedule().size() != 0){
+                if (event.getSchedule().get(0).getRoom().getCapacity() > dto.getGuestIds().length) {
+                    event = eventService.findById(event.getId());
+                    event.getParticipants().add(accountService.findById(id));
+                }
             }
         }
-        start = scheduleRoomService.findById(dto.getStartId());
-        start.setTitle(dto.getTitle());
-        start = scheduleRoomService.findById(dto.getStartId());
-        start.setEndDateTime(end.getEndDateTime());
-        return start;
+        if (!dto.getWithout()) {
+            event = eventService.findById(event.getId());
+            event.setOwner(accountService.findByEmail(accountService.isLogged()));
+        }
+        for (Long i = dto.getStartId(); i <= dto.getEndId(); i++) {
+            event = eventService.findById(event.getId());
+            ScheduleRoom schedule = scheduleRoomService.findById(i);
+            schedule.setEvent(event);
+            event = eventService.findById(event.getId());
+            schedule = scheduleRoomService.findById(i);
+            event.getSchedule().add(schedule);
+        }
+
+        return event;
     }
 
     @Override

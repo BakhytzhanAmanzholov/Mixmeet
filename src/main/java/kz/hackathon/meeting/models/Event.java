@@ -1,9 +1,8 @@
 package kz.hackathon.meeting.models;
 
-import javax.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -13,18 +12,17 @@ import java.util.List;
 @Setter
 @ToString
 @Builder
-public class ScheduleRoom {
-
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
+    private String title;
     @ManyToOne
-    private Room room;
+    private Account owner;
+    @OneToMany
+    @ToString.Exclude
+    private List<Account> participants;
 
-    @ManyToOne
-    private Event event;
-
-
+    @OneToMany
+    private List<ScheduleRoom> schedule;
 }

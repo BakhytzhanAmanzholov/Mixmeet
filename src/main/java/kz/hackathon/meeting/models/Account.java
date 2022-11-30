@@ -51,5 +51,5 @@ public class Account {
 
     @ManyToMany
     @ToString.Exclude
-    private List<ScheduleRoom> scheduleRooms;
+    private List<Event> scheduleRooms;
 }

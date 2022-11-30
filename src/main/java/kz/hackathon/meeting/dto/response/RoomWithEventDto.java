@@ -13,5 +13,5 @@ public class RoomWithEventDto {
     private String room;
     private Integer capacity;
     private String type;
-    private List<EventResponseDto> events;
+    private List<ScheduleRoomWithEventDto> events;
 }

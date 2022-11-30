@@ -28,6 +28,8 @@ public class AccountServiceImpl implements AccountService {
     private final ScheduleWorkspaceService scheduleWorkspaceService;
 
     private final OfficeService officeService;
+//
+    private final EventService eventService;
 
     @Override
     public Account findByEmail(String email) {
@@ -88,18 +90,18 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void addEventToAccountOwner(Long accountId, Long eventID) {
         Account account = findById(accountId);
-        ScheduleRoom event = scheduleRoomService.findById(eventID);
+        Event event = eventService.findById(eventID);
         event.setOwner(account);
     }
 
     @Override
     public void addEventToAccounts(List<Long> accountIds, Long eventID) {
-        ScheduleRoom event = scheduleRoomService.findById(eventID);
+        Event event = eventService.findById(eventID);
 
         for(Long id: accountIds){
             Account account = findById(id);
             event.getParticipants().add(account);
-            event = scheduleRoomService.findById(eventID);
+            event = eventService.findById(eventID);
             account = findById(id);
             account.getScheduleRooms().add(event);
         }

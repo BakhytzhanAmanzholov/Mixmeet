@@ -1,7 +1,9 @@
 package kz.hackathon.meeting.controllers;
 
 import kz.hackathon.meeting.dto.mappers.RoomMapper;
+import kz.hackathon.meeting.dto.request.EventDto;
 import kz.hackathon.meeting.dto.response.RoomDto;
+import kz.hackathon.meeting.dto.response.RoomWithEventDto;
 import kz.hackathon.meeting.dto.response.RoomWithWorkspaceDto;
 import kz.hackathon.meeting.models.Room;
 import kz.hackathon.meeting.services.RoomService;
@@ -24,9 +26,10 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> room(@PathVariable("id") Long id) {
+    public ResponseEntity<?> roomWithEvent(@PathVariable("id") Long id) {
         Room room = roomService.findById(id);
-        return ResponseEntity.ok(RoomMapper.toResponseDtoWithEvents(room));
+        RoomWithEventDto dto = RoomMapper.toResponseDtoWithEvents(room);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}/workspace")
