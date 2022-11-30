@@ -34,7 +34,9 @@ public class WorkspaceController {
         List<ScheduleWorkspace> scheduleWorkspaces = workspaceService.findById(id).getSchedule();
         List<ScheduleWorkspaceDto> dtoList = new ArrayList<>();
         for (ScheduleWorkspace scheduleWorkspace: scheduleWorkspaces){
-            dtoList.add(ScheduleWorkspaceMapper.toResponseDto(scheduleWorkspace));
+            if(scheduleWorkspace.getAccount() == null){
+                dtoList.add(ScheduleWorkspaceMapper.toResponseDto(scheduleWorkspace));
+            }
         }
 
         return ResponseEntity.ok(dtoList);
