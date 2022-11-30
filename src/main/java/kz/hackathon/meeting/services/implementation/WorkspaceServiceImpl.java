@@ -37,7 +37,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
             ScheduleWorkspace scheduleWorkspace = scheduleWorkspaceService.save(
                     ScheduleWorkspace.builder()
                             .workspace(entity)
-                            .date(LocalDate.of(2022, 12, 1+i))
+                            .date(LocalDate.of(2022, 12, 1 + i))
                             .build()
             );
             entity.getSchedule().add(scheduleWorkspace);
@@ -77,26 +77,32 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         ScheduleWorkspace workspace = scheduleWorkspaceService.findById(workspaceID);
         Account account = accountService.findByEmail(accountService.isLogged());
 
+        if(workspace.getAccount() != null){
+            return null;
+        }
+
         Office office = workspace.getWorkspace().getRoom().getOffice();
         int capacityWorkspace = 0;
-        int cAccounts = office.getAccounts().size();
+        int cAccounts = office.getAccounts().size() * 3;
 
-        for(Room room: office.getRooms()){
+        for (Room room : office.getRooms()) {
             capacityWorkspace += room.getCapacity();
         }
-        capacityWorkspace*=5;
+        capacityWorkspace *= 5;
 
-//        if(account.getScheduleWorkspaces().size() >= 3){
-//            if(cAccounts*3 )
-//        }
+        if (account.getScheduleWorkspaces().size() > 3) {
+            if (capacityWorkspace - cAccounts <= 0) {
+                return null;
+            }
+        }
 
 
-        for(ScheduleWorkspace scheduleWorkspace:account.getScheduleWorkspaces()){
-            if(scheduleWorkspace.getDate().equals(workspace.getDate())){
+        for (ScheduleWorkspace scheduleWorkspace : account.getScheduleWorkspaces()) {
+            if (scheduleWorkspace.getDate().equals(workspace.getDate())) {
                 return scheduleWorkspace;
             }
         }
-        if(workspace.getAccount()!=null){
+        if (workspace.getAccount() != null) {
             return workspace;
         }
 
